@@ -1,0 +1,51 @@
+<?php
+$s_emailid="you email";
+$s_password="passwor";
+$s_mail_port="587/465";
+$s_mail_host="mail host";
+$s_mail_smtpsecure="tls/ssl";
+
+
+
+require 'PHPMailer/PHPMailerAutoload.php';
+require 'PHPMailer/class.phpmailer.php';
+$mail = new PHPMailer;					
+$mail->isSMTP();     
+//$mail->SMTPDebug = 3 ;                                // Set mailer to use SMTP
+$mail->Host = gethostbyname(''.$s_mail_host.'');  // Specify main and backup SMTP servers
+$mail->SMTPAuth = true;                               // Enable SMTP authentication
+$mail->Username = ''.$s_emailid.'';                 // SMTP username
+$mail->Password = ''.$s_password.'';                           // SMTP password
+$mail->SMTPSecure = '$s_mail_smtpsecure';                            // Enable TLS encryption, `ssl` also accepted
+$mail->Port = $s_mail_port;                                    // TCP port to connect to
+$mail->setFrom(''.$s_emailid.'', 'Admin User');
+$mail->addAddress(''.$_REQUEST['txtsmtp_to'].'', 'Test User');     // Add a recipient
+$mail->isHTML(false);                                  // Set email format to HTML
+
+$mail->Subject = 'Nullam id dolor id nibh ultricies vehicula.';
+$mail->Body    = 'Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.';
+$mail->AltBody = 'Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.';
+if(!$mail->send()) 
+{
+	echo 'Mailer Error: ' . $mail->ErrorInfo;
+	?>
+				<div class="panel-body">
+					<div class="alert alert-danger alert-dismissible" role="alert">
+					  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					  <strong>Oh!</strong> Message could not be sent. 
+					</div>
+				</div>    
+			<?php
+} 
+else 
+{
+?>
+			<div class="panel-body">
+				<div class="alert alert-success alert-dismissible" role="alert">
+				  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				  <strong>Well done!</strong> Message has been sent. 
+				</div>
+			</div>    
+			<?php
+}
+?>
